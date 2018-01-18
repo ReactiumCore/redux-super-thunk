@@ -69,23 +69,13 @@ describe('thunk middleware', () => {
     });
   });
 
-  describe('handle errors', () => {
-    it('must throw if argument is non-object', done => {
-      try {
-        thunkMiddleware();
-      } catch (err) {
-        done();
-      }
-    });
-  });
-
   describe('withExtraArgument', () => {
     it('must pass the third argument', done => {
       const extraArg = { lol: true };
       thunkMiddleware.withExtraArgument(extraArg)({
         dispatch: doDispatch,
         getState: doGetState,
-      })()((dispatch, getState, arg) => {
+      })()((dispatch, getState, store, arg) => {
         chai.assert.strictEqual(dispatch, doDispatch);
         chai.assert.strictEqual(getState, doGetState);
         chai.assert.strictEqual(arg, extraArg);

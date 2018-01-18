@@ -1,6 +1,6 @@
 {
   "name": "redux-super-thunk",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Redux middleware that returns a function instead of an action but with a twist.",
   "main": "lib/index.js",
   "jsnext:main": "es/index.js",
@@ -16,8 +16,6 @@
     "clean": "rimraf lib dist es",
     "build": "npm run build:commonjs && npm run build:umd && npm run build:umd:min && npm run build:es",
     "prepublish": "npm run clean && npm run test && npm run build",
-    "posttest": "npm run lint",
-    "lint": "eslint src test",
     "test": "cross-env BABEL_ENV=commonjs mocha --compilers js:babel-core/register --reporter spec test/*.js",
     "build:commonjs": "cross-env BABEL_ENV=commonjs babel src --out-dir lib",
     "build:es": "cross-env BABEL_ENV=es babel src --out-dir es",
