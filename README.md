@@ -12,13 +12,29 @@ npm install --save redux-super-thunk
 While this is great, it would be so much more powerful to supply the `store` as well, making it possible to subscribe to a store inside of an action. 
 
 ```js
+import axios from 'axios';
+
 export default {
-    mount: params => (dispatch, getState, store) => {  
-        return store.subscribe(() => { 
-            dispatch({type: 'SUBSCRIBE', payload: 'feed update'});
+    subscribe: params => (dispatch, getState, store) => { 
+        let unsubscribe = store.subscribe(() => { 
+            let ival = setInterval(() => {
+                let state = getState()['subscription'];
+                if ( state === 'on' ) {
+                     axios.get('http://someapi/route').then((result) => { 
+                        dispatch({ type: 'MY_UPDATE', result: result});                
+                    });
+                }
+                else {
+                    clearInterval(ival);
+                    unsubscribe();
+                }
+            }, 8000);
         });
     },
+    
+    unsubscribe: () => ({type: 'UNSUBSCRIBE'}),
 };
+
 ```
 
 **_For more information on thunks go [here](https://github.com/gaearon/redux-thunk)_
