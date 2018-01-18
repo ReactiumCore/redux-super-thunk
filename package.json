@@ -1,6 +1,6 @@
 {
   "name": "redux-super-thunk",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Redux middleware that returns a function instead of an action but with a twist.",
   "main": "lib/index.js",
   "jsnext:main": "es/index.js",

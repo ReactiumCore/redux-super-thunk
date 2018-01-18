@@ -12,19 +12,13 @@ npm install --save redux-super-thunk
 While this is great, it would be so much more powerful to supply the `store` as well, making it possible to subscribe to a store inside of an action. 
 
 ```js
-
-const handleChange = () => {
-    console.log('Hey, something changed!');
-};
-
 export default {
-    mount: params => (dispatch, getState, store) => {
-        dispatch({type: 'STORE_SUBSCRIBE', function: handleChange});
-        
-        return store.subscribe(handleChange);
+    mount: params => (dispatch, getState, store) => {  
+        return store.subscribe(() => { 
+            dispatch({type: 'SUBSCRIBE', payload: 'feed update'});
+        });
     },
 };
-
 ```
 
 **_For more information on thunks go [here](https://github.com/gaearon/redux-thunk)_
