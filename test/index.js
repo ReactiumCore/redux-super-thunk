@@ -69,8 +69,23 @@ describe('thunk middleware', () => {
     });
   });
 
+  describe('no withExtraArgument', () => {
+    it('must pass store to the third argument', done => {
+      thunkMiddleware({
+        dispatch: doDispatch,
+        getState: doGetState,
+      })()((dispatch, getState, store) => {
+        chai.assert.strictEqual(dispatch, doDispatch);
+        chai.assert.strictEqual(getState, doGetState);
+        chai.assert.strictEqual(store.dispatch, doDispatch);
+        chai.assert.strictEqual(store.getState, doGetState);
+        done();
+      });
+    });
+  });
+
   describe('withExtraArgument', () => {
-    it('must pass the third argument', done => {
+    it('must pass the third argument and store as the fourth', done => {
       const extraArg = { lol: true };
       thunkMiddleware.withExtraArgument(extraArg)({
         dispatch: doDispatch,
@@ -78,6 +93,8 @@ describe('thunk middleware', () => {
       })()((dispatch, getState, arg, store) => {
         chai.assert.strictEqual(dispatch, doDispatch);
         chai.assert.strictEqual(getState, doGetState);
+        chai.assert.strictEqual(store.dispatch, doDispatch);
+        chai.assert.strictEqual(store.getState, doGetState);
         chai.assert.strictEqual(arg, extraArg);
         done();
       });
