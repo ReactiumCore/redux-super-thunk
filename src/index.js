@@ -37,7 +37,11 @@ export const applyMiddleware = (...middlewares) => {
 function createThunkMiddleware(extraArgument) {
     return (store) => next => action => {
         if (typeof action === 'function') {
-            return action(store.dispatch, store.getState, store, extraArgument);
+            if (typeof extraArgument !== 'undefined') {
+              return action(store.dispatch, store.getState, extraArgument, store);
+            } else {
+              return action(store.dispatch, store.getState, store);
+            }
         }
 
         return next(action);

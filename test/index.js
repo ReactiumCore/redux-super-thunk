@@ -75,7 +75,7 @@ describe('thunk middleware', () => {
       thunkMiddleware.withExtraArgument(extraArg)({
         dispatch: doDispatch,
         getState: doGetState,
-      })()((dispatch, getState, store, arg) => {
+      })()((dispatch, getState, arg, store) => {
         chai.assert.strictEqual(dispatch, doDispatch);
         chai.assert.strictEqual(getState, doGetState);
         chai.assert.strictEqual(arg, extraArg);

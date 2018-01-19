@@ -25,8 +25,9 @@ let store = createStore(reducer, applyMiddleware(thunk))
 
 
 # Why Redux Super Thunk?
-[Thunk](https://github.com/gaearon/redux-thunk) supplies the `dispatch` and `getState` arguments and provides the ability to add extra arguments via the `thunk.withExtraArgument` function.
-While this is great, it would be so much more powerful to supply the `store` as well, making it possible to subscribe to a store inside of an action.
+Redux Super Thunk is a super-set of what is provided by [Redux Thunk](https://github.com/gaearon/redux-thunk). Redux Thunk supplies the redux store's `dispatch` and `getState` methods to a higher-order action creator (as well as an addition argument of your choosing).
+
+While thunk is a powerful too for being able to create almost any manner of asynchronous actions, it would be so much more powerful to supply the `store` as well, making it possible to subscribe to a store inside of a higher order action creator. This is where Super Thunk comes in.
 
 ```js
 import axios from 'axios';
@@ -37,7 +38,7 @@ export default {
             let ival = setInterval(() => {
                 let state = getState()['subscription'];
                 if ( state === 'on' ) {
-                     axios.get('http://someapi/route').then((result) => {
+                     axios.get('http://someapi/my-data').then((result) => {
                         dispatch({ type: 'MY_UPDATE', result: result});                
                     });
                 }
@@ -51,7 +52,47 @@ export default {
 
     unsubscribe: () => ({type: 'UNSUBSCRIBE'}),
 };
+```
 
+## Super Thunk with extra argument
+
+For redux thunk users that are currently using an extra argument when adding thunk as middleware, you can still do this, and the store becomes a fourth argument for your thunk action creator.
+
+Setup with extra argument:
+```js
+import { createStore, combineReducers } from 'redux'
+import thunk, { applyMiddleware } from 'redux-super-thunk';
+import * as reducers from './reducers'
+import axios from 'axios';
+
+let reducer = combineReducers(reducers)
+
+const api = axios.create({ baseUrl: 'http://someapi' });
+let store = createStore(reducer, applyMiddleware(thunk.withExtraArgument(api)))
+```
+
+Your thunk will now be:
+```js
+export default {
+    subscribe: params => (dispatch, getState, api, store) => {
+        let unsubscribe = store.subscribe(() => {
+            let ival = setInterval(() => {
+                let state = getState()['subscription'];
+                if ( state === 'on' ) {
+                     api.get('/my-data').then((result) => {
+                        dispatch({ type: 'MY_UPDATE', result: result});                
+                    });
+                }
+                else {
+                    clearInterval(ival);
+                    unsubscribe();
+                }
+            }, 8000);
+        });
+    },
+
+    unsubscribe: () => ({type: 'UNSUBSCRIBE'}),
+};
 ```
 
 **_For more information on thunks go [here](https://github.com/gaearon/redux-thunk)_
