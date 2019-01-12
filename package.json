@@ -68,14 +68,14 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "chai": "^3.2.0",
     "cross-env": "^1.0.7",
-    "eslint": "^1.10.2",
+    "eslint": "^5.12.0",
     "eslint-config-airbnb": "1.0.2",
     "eslint-plugin-react": "^4.1.0",
-    "mocha": "^2.2.5",
+    "mocha": "^5.2.0",
     "redux": "^3.4.0",
     "rimraf": "^2.5.2",
     "typescript": "^1.8.10",
-    "typescript-definition-tester": "0.0.4",
+    "typescript-definition-tester": "0.0.6",
     "webpack": "^1.12.14"
   },
   "peerDependencies": {
