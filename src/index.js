@@ -24,13 +24,21 @@ export const applyMiddleware = (...middlewares) => {
       ...store,
       dispatch: (...args) => dispatch(...args)
     }
-    chain = middlewares.map(middleware => middleware(middlewareAPI))
-    dispatch = compose(...chain)(store.dispatch)
 
-    return {
-      ...store,
-      dispatch
+    const composeMiddleware = middlewares => {
+      chain = middlewares.map(middleware => middleware(middlewareAPI))
+      dispatch = compose(...chain)(store.dispatch)
+      return dispatch;
     }
+    composeMiddleware(middlewares);
+
+    const storeWithMiddleware = {
+      ...store,
+      dispatch,
+      replaceMiddlewares: middlewares => storeWithMiddleware.dispatch = composeMiddleware(middlewares),
+    };
+
+    return storeWithMiddleware;
   }
 };
 

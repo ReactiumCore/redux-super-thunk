@@ -1,5 +1,4 @@
 {
-  "extends": "eslint-config-airbnb",
   "env": {
     "mocha": true,
     "node": true
@@ -11,5 +10,9 @@
     "padded-blocks": 0,
     "no-use-before-define": [2, "nofunc"],
     "no-unused-expressions": 0
+  },
+  "parserOptions": {
+      "ecmaVersion": 9,
+      "sourceType": "module"
   }
 }
