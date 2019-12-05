@@ -1,6 +1,8 @@
 Redux Super Thunk
 =================
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/Atomic-Reactor/redux-super-thunk.svg)](https://greenkeeper.io/)
+
 Thunk [middleware](http://redux.js.org/docs/advanced/Middleware.html) for Redux that adds the store as an argument.
 
 ```bash
